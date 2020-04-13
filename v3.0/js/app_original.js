@@ -1,15 +1,11 @@
-// State
+//State
 let todos = [];
 let navState = "all";
 
-// DOM
+//DOM
 const $todos = document.querySelector(".todos");
 const $inputTodo = document.querySelector(".input-todo");
-
-// nav
 const $nav = document.querySelector(".nav");
-
-// footer
 const $completeAll = document.querySelector(".complete-all");
 const $clearCompleted = document.querySelector(".clear-completed");
 const $completedTodos = document.querySelector(".completed-todos");

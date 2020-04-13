@@ -1,5 +1,6 @@
 // State
 let todos = [];
+let filter = "all";
 
 //DOM
 const $todos = document.querySelector(".todos");
@@ -8,13 +9,27 @@ const $completeAllCheck = document.querySelector(".complete-all");
 const $clearCompleted = document.querySelector(".clear-completed > .btn");
 const $activeTodos = document.querySelector(".active-todos");
 const $completedTodos = document.querySelector(".completed-todos");
+const $filterAll = document.querySelector("#all");
+const $filterActive = document.querySelector("#active");
+const $filterCompleted = document.querySelector("#completed");
 
 //render 함수
 const render = () => {
   let html = "";
 
   //FIXME: 대소문자 구별 Completed라고 적어서 실행되지 않았었다.
-  todos.forEach((todo) => {
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active") {
+      //active는 완료되지 않은 것.
+      return !todo.completed;
+    } else if (filter === "completed") {
+      //completed는 완료된 것.
+      return todo.completed;
+    } else {
+      return true;
+    }
+  });
+  filteredTodos.forEach((todo) => {
     html += `<li id="${todo.id}" class="todo-item">
     <input id="${todo.id}" class="checkbox" type="checkbox" ${
       todo.completed ? "checked" : ""
@@ -141,5 +156,36 @@ $clearCompleted.onclick = (e) => {
     //false항목만 남겨야한다. true인 항목은 제거된다.
     return !todo.completed;
   });
+  render();
+};
+
+//Tab
+$filterAll.onclick = (e) => {
+  filter = "all";
+
+  $filterAll.classList.add("active");
+  $filterActive.classList.remove("active");
+  $filterCompleted.classList.remove("active");
+
+  e.target.render();
+};
+
+$filterActive.onclick = (e) => {
+  filter = "active";
+
+  $filterAll.classList.remove("active");
+  $filterActive.classList.add("active");
+  $filterCompleted.classList.remove("active");
+
+  render();
+};
+
+$filterCompleted.onclick = (e) => {
+  filter = "completed";
+
+  $filterAll.classList.remove("active");
+  $filterActive.classList.remove("active");
+  $filterCompleted.classList.add("active");
+
   render();
 };
